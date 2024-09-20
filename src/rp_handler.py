@@ -35,7 +35,6 @@ def wait_for_service(url):
         time.sleep(0.2)
 
 
-
 def run_inference(params):
     method = params["method"]
     api_path = params["api_path"]
@@ -63,6 +62,7 @@ def run_inference(params):
 
     return response.json()
 
+
 # ---------------------------------------------------------------------------- #
 #                                RunPod Handler                                #
 # ---------------------------------------------------------------------------- #
@@ -75,3 +75,9 @@ def handler(event):
 
     # return the output that you want to be returned like pre-signed URLs to output artifacts
     return json
+
+
+if __name__ == "__main__":
+    wait_for_service(url=f'{LOCAL_URL}/sd-models')
+    print("WebUI API Service is ready. Starting RunPod Serverless...")
+    runpod.serverless.start({"handler": handler})

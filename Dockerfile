@@ -9,10 +9,10 @@ FROM alpine/git:2.43.0 as download
 # RUN apk add --no-cache wget && \
 #     wget -q -O /model.safetensors https://huggingface.co/XpucT/Deliberate/resolve/main/Deliberate_v6.safetensors
 
-ADD control_v11p_sd15_lineart.pth /
-ADD xtoons_v10.safetensors /
-ADD toneRangeCompressor_trcvae.safetensors /
-
+ADD dreamshaper_8.safetensors /
+ADD controlnetQRPatternQR_v1Sd15.safetensors /
+ADD control_v11f1e_sd15_tile.pth /
+ADD control_v1p_sd15_brightness.safetensors /
 
 # ---------------------------------------------------------------------------- #
 #                        Stage 2: Build the final image                        #
@@ -54,9 +54,10 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 
 # COPY --from=download /model.safetensors /model.safetensors
 
-COPY --from=download /xtoons_v10.safetensors /stable-diffusion-webui/models/Stable-diffusion/xtoons_v10.safetensors
-COPY --from=download /control_v11p_sd15_lineart.pth /stable-diffusion-webui/models/ControlNet/control_v11p_sd15_lineart.pth
-COPY --from=download /toneRangeCompressor_trcvae.safetensors /stable-diffusion-webui/models/VAE/toneRangeCompressor_trcvae.safetensors
+COPY --from=download /dreamshaper_8.safetensors /stable-diffusion-webui/models/Stable-diffusion/dreamshaper_8.safetensors
+COPY --from=download /controlnetQRPatternQR_v1Sd15.safetensors /stable-diffusion-webui/models/ControlNet/controlnetQRPatternQR_v1Sd15.safetensors
+COPY --from=download /control_v11f1e_sd15_tile.pth /stable-diffusion-webui/models/ControlNet/control_v11f1e_sd15_tile.pth
+COPY --from=download /control_v1p_sd15_brightness.safetensors /stable-diffusion-webui/models/ControlNet/control_v1p_sd15_brightness.safetensors
 
 # Install RunPod SDK
 RUN --mount=type=cache,target=/root/.cache/pip \
